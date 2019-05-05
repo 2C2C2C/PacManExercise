@@ -5,6 +5,7 @@ using UnityEngine;
 public class MacMan : BaseGridMovement
 {
     private Material m_mat;
+    private Color m_ogColor;
     private float m_originalSpeed;
 
     protected override void Awake()
@@ -12,7 +13,11 @@ public class MacMan : BaseGridMovement
         base.Awake();
         m_originalSpeed = movementSpeed;
         if (GetComponentInChildren<MeshRenderer>())
+        {
             m_mat = GetComponentInChildren<MeshRenderer>().material;
+            if (m_mat)
+                m_ogColor = m_mat.color;
+        }
     }
 
     protected override void Update()
@@ -59,23 +64,24 @@ public class MacMan : BaseGridMovement
     protected IEnumerator BlinkingLast(float _duration)
     {
         float temp = 0.0f;
-        Color tmpColor = m_mat.color;
+        //Color tmpColor = m_mat.color;
         while (temp < _duration)
         {
             yield return new WaitForSeconds(0.2f);
             temp += 0.2f;
             m_mat.SetColor("_Color", Color.red);
             yield return new WaitForSeconds(0.2f);
-            m_mat.SetColor("_Color", tmpColor);
+            m_mat.SetColor("_Color", m_ogColor);
             temp += 0.2f;
         }
-        m_mat.SetColor("_Color", tmpColor);
+        m_mat.SetColor("_Color", m_ogColor);
     }
 
     protected Coroutine m_speedUpCoroutine;
     public void StartSpeedUp(float _duration = 4.0f)
     {
         m_mat.SetColor("_Color", Color.blue);
+        m_ogColor = Color.blue;
         movementSpeed *= 1.2f;
 
         //if (m_speedUpCoroutine != null)
