@@ -250,6 +250,12 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
+        CameraFollow cfwa = Camera.main.GetComponent<CameraFollow>();
+        if (cfwa)
+        {
+            cfwa.m_targetToFollow = FindObjectOfType<MacMan>().transform;
+        }
+
         GameManager.Instance.AddScore(0);
         Debug.Log("level is done");
         OnLevelGeneratingFinish?.Invoke();
