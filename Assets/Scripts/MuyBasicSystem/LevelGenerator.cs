@@ -241,26 +241,34 @@ public class LevelGenerator : MonoBehaviour
             cfwa.m_targetToFollow = FindObjectOfType<MacMan>().transform;
         }
 
+        // to remove
+        if (UIManager.Instance)
+        {
+            UIManager.Instance.CloseScreen<MenuScreen>();
+            UIManager.Instance.ShowScreen<GameScreenA>();
+        }
+
         GameManager.Instance.AddScore(0);
         Debug.Log("level is done");
         OnLevelGeneratingFinish?.Invoke();
     }
 
 
-    // for test
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            LevelGenerator.ReStartTest();
-        }
-    }
+    //// for test
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.G))
+    //    {
+    //        LevelGenerator.ReStartTest();
+    //    }
+    //}
 
     public static void ReStartTest()
     {
         LevelGenerator.Instance.m_pillCounts = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
 
     // class end
 }

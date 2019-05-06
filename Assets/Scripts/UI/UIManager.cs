@@ -10,12 +10,11 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        //if (UIManager.Instance == null)
-        //    UIManager.Instance = this;
-        //else
-        //    Destroy(gameObject);
+        if (UIManager.Instance == null)
+            UIManager.Instance = this;
+        else
+            Destroy(gameObject);
 
-        UIManager.Instance = this;
 
         m_uiScreens = new Dictionary<System.Type, BasicScreen>();
         BasicScreen[] screens = GetComponentsInChildren<BasicScreen>(true);
@@ -45,6 +44,14 @@ public class UIManager : MonoBehaviour
             Debug.LogError("this screen does not exist");
         else
             m_uiScreens[typeof(T)].OpenScreen();
+    }
+
+    public void CloseScreen<T>()
+    {
+        if (!m_uiScreens.ContainsKey(typeof(T)))
+            Debug.LogError("this screen does not exist");
+        else
+            m_uiScreens[typeof(T)].CloseScreen();
     }
 
     public BasicScreen GetScreen<T>()
