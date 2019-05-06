@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System;
 
+
 public class GameManager
 {
     private static GameManager instance;
     public static GameManager Instance => instance ?? (instance = new GameManager());
 
     private int m_scores = 0;
+    private int m_levelFinished = 0;
 
     #region actions
 
@@ -22,6 +24,7 @@ public class GameManager
 
     public void ResetStatus()
     {
+        m_levelFinished = 0;
         m_scores = 0;
     }
 
