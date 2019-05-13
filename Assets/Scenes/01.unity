@@ -455,7 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce6affabb5644f94991911fbaab861b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intListA: 
+  intListA: 01000000020000000300000004000000
   rst: 
 --- !u!1 &1690155340
 GameObject:

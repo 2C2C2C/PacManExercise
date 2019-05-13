@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using MacManTools;
-
+using Newtonsoft.Json;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -67,6 +67,17 @@ public class LevelGenerator : MonoBehaviour
         LevelGenerator.m_levelSizeY = LevelGenerator.Grids.GetLength(0);
         LevelGenerator.m_levelSizeX = LevelGenerator.Grids.GetLength(1);
         //Debug.Log(Grid[1, 6]);
+
+
+
+        string tmpStr = System.IO.File.ReadAllText($"{Application.dataPath}/MacMan/AppData/LevelData/wa.json");
+        var ld = JsonConvert.DeserializeObject<LevelData>(tmpStr);
+
+        if (ld != null)
+            LevelGenerator.Grids = ld.grids;
+        else
+            Debug.LogError("level data null");
+
         if (m_testMode)
             GenerateLevel();
         else
