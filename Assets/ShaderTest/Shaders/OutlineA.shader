@@ -19,11 +19,6 @@ Shader "MuyShader/OutlineA"
         {
             Zwrite Off
             Cull Off
-            // ZTest Always
-            // ColorMask RGB // alpha not used
-            
-            // you can choose what kind of blending mode you want for the outline
-            // Blend SrcAlpha OneMinusSrcAlpha // Normal
 
             CGPROGRAM
 
