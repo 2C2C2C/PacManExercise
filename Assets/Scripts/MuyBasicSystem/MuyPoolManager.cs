@@ -193,6 +193,45 @@ namespace HentaiTools.PoolWa
 
         }
 
+        public MonoBehaviour GetOne<T>() where T : MonoBehaviour
+        {
+            if (MuyPoolManager.Instance.m_pools == null)
+            {
+                Debug.LogError($"pool havent init fku");
+                return null;
+            }
+
+            MonoBehaviour mono = null;
+            if (!m_pools.ContainsKey(typeof(T)))
+            {
+                // to do : should I init pool now or alert?
+                Debug.LogError($"this kind({typeof(T)}) didnt init");
+                return null;
+            }
+            else
+            {
+                mono = m_pools[typeof(T)].GetOne();
+            }
+            return mono;
+        }
+
+        public void TakeOneBack<T>(MonoBehaviour _obj) where T : MonoBehaviour
+        {
+            if (!m_pools.ContainsKey(typeof(T)))
+            {
+                // todo : if didnt contain, create it 
+                return;
+            }
+            m_pools[typeof(T)].TakeOneBack(_obj);
+        }
+
+        public void TakeAllBack()
+        {
+            foreach (var pool in m_pools)
+            {
+                // pool.Value.TakeAllBack();
+            }
+        }
 
         #endregion
 
@@ -220,6 +259,15 @@ namespace HentaiTools.PoolWa
 
         // class end
     }
+
+
+    // store some data to help pool in runtime
+    // store data such as different default extend count
+    public static class PoolHelper
+    {
+
+    }
+
 
     // namespace end
 }

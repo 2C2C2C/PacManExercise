@@ -16,6 +16,8 @@ namespace HentaiTools.PoolWa
         public Transform m_parent;
         private Queue<MonoBehaviour> m_objs;
 
+        private int m_defaultExtendCount = 10;
+
         private int m_lendOutCount = 0;
         public int LendOutCount => m_lendOutCount;
         private int m_storeCount = 0;
@@ -27,13 +29,14 @@ namespace HentaiTools.PoolWa
             m_objs = new Queue<MonoBehaviour>();
             // AddExtend();
         }
-        public MuyObjectPool(MonoBehaviour _mono, Transform _parent = null, int _poolSize = 1)
+        public MuyObjectPool(MonoBehaviour _mono, Transform _parent = null, int _poolSize = 1, int _defaultExtendCount = 10)
         {
             m_objs = new Queue<MonoBehaviour>();
             m_referenceObj = _mono;
             m_parent = _parent;
             AddExtend(_poolSize);
             m_lendOutCount = 0;
+            m_defaultExtendCount = _defaultExtendCount;
             m_storeCount = m_objs.Count;
         }
 
@@ -52,7 +55,7 @@ namespace HentaiTools.PoolWa
         {
             MonoBehaviour temp;
             if (m_objs.Count < 0)
-                AddExtend(5);
+                AddExtend(10);
             temp = m_objs.Dequeue();
             m_lendOutCount++;
             if (_parent != null)
@@ -122,7 +125,25 @@ namespace HentaiTools.PoolWa
                     if (monos[i].gameObject.activeSelf)
                         TakeOneBack(monos[i]);
                 }
-
+            }
+        }
+        // todo : add a beter method
+        public void TakeAllBack()
+        {
+            if (m_parent == null)
+            {
+                Debug.LogError($"idk how to do it without a empty parent");
+                return;
+            }
+            else
+            {
+                foreach (Transform t in m_parent)
+                {
+                    if(t.gameObject.activeSelf)
+                    {
+                        
+                    }
+                }
             }
         }
 

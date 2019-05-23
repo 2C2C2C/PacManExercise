@@ -13,6 +13,7 @@ public class LevelGenerator : MonoBehaviour
     public static LevelGenerator Instance;
 
     /// <summary>
+    /// todo : orgnize it agagin
     /// 0 pill, 1 wall, 2 ghost, 3 macman
     /// </summary>
     public BaseGridObject[] baseGridObjects;
@@ -39,7 +40,7 @@ public class LevelGenerator : MonoBehaviour
 
 
     /// <summary>
-    /// 0 pill, 1 wall, 2 ghost, 3 macman
+    /// 0 pill, 1 wall, 2 ghost, 3 macman, 4 strong_pill, 5 fast_pill
     /// </summary>
     public static int[,] Grids = new int[,]
     {
@@ -70,15 +71,24 @@ public class LevelGenerator : MonoBehaviour
         LevelGenerator.m_levelSizeX = LevelGenerator.Grids.GetLength(1);
         //Debug.Log(Grid[1, 6]);
 
+
+        // know the map, generate pool
+        MuyPoolManager.Instance.EmptyFunc();
+
+        // todo : how should I sized muy pool
+        // MuyPoolManager.Instance.InitSomePool<Wall>(1);
+        // todo : init objs, but not here
+        MuyPoolManager.Instance.InitSomePool<BaseGridObject>(1);
+        MuyPoolManager.Instance.InitSomePool<BaseGridMovement>(1);
+        MuyPoolManager.Instance.ResizePool<Ghost>(5);
+        MuyPoolManager.Instance.ResizePool<Wall>(LevelGenerator.m_levelSizeY * LevelGenerator.m_levelSizeX);
+        MuyPoolManager.Instance.ResizePool<Pill>(LevelGenerator.m_levelSizeY * LevelGenerator.m_levelSizeX);
+
         if (m_testMode)
             GenerateLevel();
         else
             NewGenerateLevel();
 
-        //List<int> itwa = new List<int>();
-        //Debug.Log($"fker test 1 {itwa.Count}");
-        //itwa.Add(2);
-        //Debug.Log($"fker test 1 {itwa.Count}");
     }
 
     //// Start is called before the first frame update
@@ -117,19 +127,6 @@ public class LevelGenerator : MonoBehaviour
         //
         LevelGenerator.m_levelSizeY = LevelGenerator.Grids.GetLength(0);
         LevelGenerator.m_levelSizeX = LevelGenerator.Grids.GetLength(1);
-
-        // know the map, generate pool
-        MuyPoolManager.Instance.EmptyFunc();
-        
-        // todo : how should I sized muy pool
-        // MuyPoolManager.Instance.InitSomePool<Wall>(1);
-        // todo : init objs, but not here
-        // MuyPoolManager.Instance.InitSomePool<BaseGridObject>(1);
-        // MuyPoolManager.Instance.InitSomePool<BaseGridMovement>(1);
-        // MuyPoolManager.Instance.ResizePool<Ghost>(5);
-        // MuyPoolManager.Instance.ResizePool<Wall>(LevelGenerator.m_levelSizeY * LevelGenerator.m_levelSizeX);
-        // MuyPoolManager.Instance.ResizePool<Pill>(LevelGenerator.m_levelSizeY * LevelGenerator.m_levelSizeX);
-
 
         // temp uses
         int i = 0, j = 0;
@@ -183,7 +180,7 @@ public class LevelGenerator : MonoBehaviour
     {
         int builderLast = m_spawnerCounts;
         int i, j, k;
-
+        // build path
         while (builderLast > 0)
         {
             for (i = 0; i < m_spawnerCounts; i++)
@@ -222,35 +219,33 @@ public class LevelGenerator : MonoBehaviour
                 if ((i == m_levelSizeY - 1 || i == 2) && (j == 1 || j == m_levelSizeX - 2))
                     LevelGenerator.Grids[i - 1, j] = 2;
 
-                //Debug.Log(LevelGenerator.Grid[i - 1, j]);
-                //if (LevelGenerator.Grids[i - 1, j] == 0)
-                //    m_pillCounts++;
                 BaseGridObject bgo;
+                bgo=TakeObjFromPool(LevelGenerator.Grids[i - 1, j]);
                 bgo = Instantiate(baseGridObjects[LevelGenerator.Grids[i - 1, j]], new Vector3(j, m_levelSizeY - i, 0.0f), Quaternion.identity);
                 bgo.m_gridPos = new IntVector2(j, m_levelSizeY - i);
-                switch (LevelGenerator.Grids[i - 1, j])
-                {
-                    case 0:// pills
-                        // Debug.Log("spawn pill la");
-                        m_pillCounts++;
-                        IntVector2 iv = new IntVector2(j, i - 1);
-                        for (k = 0; k < m_spawnerCounts; k++)
-                        {
-                            if (iv == pathSpawners[k].m_pos)
-                            {
-                                //Debug.Log($"spawn strong pill");
-                                (bgo as Pill).InitPill(PillType.Strong);
-                                break;
-                            }
-                        }
-                        break;
-                    case 4:
-                    case 5:
-                        m_pillCounts++;
-                        break;
-                    default:
-                        break;
-                }
+                // switch (LevelGenerator.Grids[i - 1, j])
+                // {
+                //     case 0:// pills
+                //         // Debug.Log("spawn pill la");
+                //         m_pillCounts++;
+                //         IntVector2 iv = new IntVector2(j, i - 1);
+                //         for (k = 0; k < m_spawnerCounts; k++)
+                //         {
+                //             if (iv == pathSpawners[k].m_pos)
+                //             {
+                //                 //Debug.Log($"spawn strong pill");
+                //                 (bgo as Pill).InitPill(PillType.Strong);
+                //                 break;
+                //             }
+                //         }
+                //         break;
+                //     case 4:
+                //     case 5:
+                //         m_pillCounts++;
+                //         break;
+                //     default:
+                //         break;
+                // }
             }
         }
 
@@ -282,11 +277,50 @@ public class LevelGenerator : MonoBehaviour
     //    }
     //}
 
+    /// <summary>
+    /// take grid obj from pool, to help generate
+    /// Im sure dat I should not do this
+    /// </summary>
+    /// <param name="_objType">0 pill, 1 wall, 2 ghost, 3 macman, 4 strong_pill, 5 fast_pill</param>
+    /// <returns></returns>
+    public BaseGridObject TakeObjFromPool(int _objType)
+    {
+        BaseGridObject bgo = null;
+        switch (_objType)
+        {
+            case 1:
+                bgo = (MuyPoolManager.Instance.GetOne<Wall>() as BaseGridObject);
+                break;
+            case 2:
+                bgo = (MuyPoolManager.Instance.GetOne<Ghost>() as BaseGridObject);
+                break;
+            case 3:
+                bgo = (MuyPoolManager.Instance.GetOne<MacMan>() as BaseGridObject);
+                break;
+            case 0:
+                bgo = (MuyPoolManager.Instance.GetOne<Pill>() as BaseGridObject);
+                (bgo as Pill).InitPill();
+                break;
+            case 4:
+                bgo = (MuyPoolManager.Instance.GetOne<Pill>() as BaseGridObject);
+                (bgo as Pill).InitPill(PillType.Strong);
+                break;
+            case 5:
+                bgo = (MuyPoolManager.Instance.GetOne<Pill>() as BaseGridObject);
+                (bgo as Pill).InitPill(PillType.Fast);
+                break;
+            default:
+                bgo = (MuyPoolManager.Instance.GetOne<Pill>() as BaseGridObject);
+                (bgo as Pill).InitPill();
+                break;
+        }
+        return bgo;
+    }
 
 
     public void FinishLevel()
     {
-
+        // MuyPoolManager.Instance
         OnLevelFinished?.Invoke();
     }
 

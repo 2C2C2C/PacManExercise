@@ -26,7 +26,23 @@ public class NonUseTestWa : MonoBehaviour
             HentaiTools.PoolWa.MuyPoolManager.CallInitPool4GridObjs();
             HentaiTools.PoolWa.MuyPoolManager.Instance.InitSomePool<BaseGridMovement>();
         }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (m_Test01 != null)
+            {
+                int i = 0;
+                foreach (Transform t in m_Test01)
+                {
+                    i++;
+                }
+                Debug.Log($"{i} wa");
+            }
+        }
+
     }
+
+    public Transform m_Test01;
 
     // class end
 }
