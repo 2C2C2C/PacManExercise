@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// do not use it in game
+/// </summary>
 public class NonUseTestWa : MonoBehaviour
 {
     // Start is called before the first frame update
