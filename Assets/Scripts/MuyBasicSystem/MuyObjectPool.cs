@@ -61,6 +61,7 @@ namespace HentaiTools.PoolWa
             if (_parent != null)
                 temp.transform.SetParent(_parent);
             // temp
+            temp.gameObject.SetActive(true);
             return temp;
         }
 
@@ -76,6 +77,7 @@ namespace HentaiTools.PoolWa
                 Debug.LogError("why send a different obj into this pool");
                 return;
             }
+            _obj.gameObject.SetActive(false);
             m_objs.Enqueue(_obj);
             m_lendOutCount--;
             m_storeCount = m_objs.Count;
@@ -104,7 +106,7 @@ namespace HentaiTools.PoolWa
         /// todo : fix it
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public void TakeAllBack<T>() where T : MonoBehaviour
+        public void TakeAllBackWa<T>() where T : MonoBehaviour
         {
             if (typeof(T) != m_referenceObj.GetType())
             {
@@ -139,9 +141,9 @@ namespace HentaiTools.PoolWa
             {
                 foreach (Transform t in m_parent)
                 {
-                    if(t.gameObject.activeSelf)
+                    if (t.gameObject.activeSelf)
                     {
-                        
+
                     }
                 }
             }

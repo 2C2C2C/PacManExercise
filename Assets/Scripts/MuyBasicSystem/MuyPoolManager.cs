@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -225,11 +226,22 @@ namespace HentaiTools.PoolWa
             m_pools[typeof(T)].TakeOneBack(_obj);
         }
 
+
+        [ContextMenu("take all back")]
         public void TakeAllBack()
         {
             foreach (var pool in m_pools)
             {
                 // pool.Value.TakeAllBack();
+                //      object result = _Interface.GetType().GetMethod("StoreData").Invoke(_Interface, null);
+                // return Convert.ToInt32(result);
+
+                // System.Object so = pool.Value;
+                // so.GetType("MuyObjectPool").MakeGenericType(pool.Key).
+                // Debug.Log(pool.Value);
+                MethodInfo method = pool.Value.GetType().GetMethod("TakeAllBackWa");
+                MethodInfo generic = method.MakeGenericMethod(pool.Key);
+                generic.Invoke(pool.Value, null);
             }
         }
 

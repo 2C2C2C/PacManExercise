@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HentaiTools.PoolWa;
 
 /// <summary>
 /// do not use it in game
@@ -19,25 +20,24 @@ public class NonUseTestWa : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G))
         {
             HentaiTools.PoolWa.MuyPoolManager.Instance.EmptyFunc();
+            // HentaiTools.PoolWa.MuyPoolManager.CallInitPool4GridObjs();
+
+            MuyPoolManager.Instance.InitSomePool<BaseGridObject>(1);
+            MuyPoolManager.Instance.InitSomePool<BaseGridMovement>(1);
+            MuyPoolManager.Instance.ResizePool<Ghost>(5);
+            MuyPoolManager.Instance.ResizePool<Wall>(20);
+            MuyPoolManager.Instance.ResizePool<Pill>(10);
         }
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            HentaiTools.PoolWa.MuyPoolManager.CallInitPool4GridObjs();
-            HentaiTools.PoolWa.MuyPoolManager.Instance.InitSomePool<BaseGridMovement>();
+            for (int i = 0; i < 6; i++)
+                MuyPoolManager.Instance.GetOne<Wall>();
         }
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (m_Test01 != null)
-            {
-                int i = 0;
-                foreach (Transform t in m_Test01)
-                {
-                    i++;
-                }
-                Debug.Log($"{i} wa");
-            }
+            MuyPoolManager.Instance.TakeAllBack();
         }
 
     }
