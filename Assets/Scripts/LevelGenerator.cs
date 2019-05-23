@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using MacManTools;
 using Newtonsoft.Json;
+using HentaiTools.PoolWa;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class LevelGenerator : MonoBehaviour
     #region actions
 
     public System.Action OnLevelGeneratingFinish;
+    public System.Action OnLevelFinished;
 
     #endregion
 
@@ -68,16 +70,6 @@ public class LevelGenerator : MonoBehaviour
         LevelGenerator.m_levelSizeX = LevelGenerator.Grids.GetLength(1);
         //Debug.Log(Grid[1, 6]);
 
-
-
-        string tmpStr = System.IO.File.ReadAllText($"{Application.dataPath}/MacMan/AppData/LevelData/wa.json");
-        var ld = JsonConvert.DeserializeObject<LevelData>(tmpStr);
-
-        if (ld != null)
-            LevelGenerator.Grids = ld.grids;
-        else
-            Debug.LogError("level data null");
-
         if (m_testMode)
             GenerateLevel();
         else
@@ -95,7 +87,7 @@ public class LevelGenerator : MonoBehaviour
     //}
 
     /// <summary>
-    /// 
+    /// wat is dis
     /// </summary>
     public void GenerateLevel()
     {
@@ -115,6 +107,9 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// todo : take objs from the pool
+    /// </summary>
     public void NewGenerateLevel()
     {
         //Debug.Log(LevelGenerator.Grids.GetLength(0)); // 7
@@ -122,6 +117,19 @@ public class LevelGenerator : MonoBehaviour
         //
         LevelGenerator.m_levelSizeY = LevelGenerator.Grids.GetLength(0);
         LevelGenerator.m_levelSizeX = LevelGenerator.Grids.GetLength(1);
+
+        // know the map, generate pool
+        MuyPoolManager.Instance.EmptyFunc();
+        
+        // todo : how should I sized muy pool
+        // MuyPoolManager.Instance.InitSomePool<Wall>(1);
+        // todo : init objs, but not here
+        // MuyPoolManager.Instance.InitSomePool<BaseGridObject>(1);
+        // MuyPoolManager.Instance.InitSomePool<BaseGridMovement>(1);
+        // MuyPoolManager.Instance.ResizePool<Ghost>(5);
+        // MuyPoolManager.Instance.ResizePool<Wall>(LevelGenerator.m_levelSizeY * LevelGenerator.m_levelSizeX);
+        // MuyPoolManager.Instance.ResizePool<Pill>(LevelGenerator.m_levelSizeY * LevelGenerator.m_levelSizeX);
+
 
         // temp uses
         int i = 0, j = 0;
@@ -223,7 +231,7 @@ public class LevelGenerator : MonoBehaviour
                 switch (LevelGenerator.Grids[i - 1, j])
                 {
                     case 0:// pills
-                        Debug.Log("spawn pill la");
+                        // Debug.Log("spawn pill la");
                         m_pillCounts++;
                         IntVector2 iv = new IntVector2(j, i - 1);
                         for (k = 0; k < m_spawnerCounts; k++)
@@ -273,6 +281,14 @@ public class LevelGenerator : MonoBehaviour
     //        LevelGenerator.ReStartTest();
     //    }
     //}
+
+
+
+    public void FinishLevel()
+    {
+
+        OnLevelFinished?.Invoke();
+    }
 
     public static void ReStartTest()
     {

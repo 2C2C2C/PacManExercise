@@ -85,14 +85,14 @@ namespace HentaiTools.PoolWa
         }
 
 
-        public void InitSomePool<T>() where T : MonoBehaviour
+        public void InitSomePool<T>(int _poolSize = 1) where T : MonoBehaviour
         {
             if (MuyPoolManager.Instance.m_pools == null)
                 MuyPoolManager.Instance.m_pools = new Dictionary<Type, MuyObjectPool>();
 
             // todo : to load prefabs at folders
             // T[] gos = (Resources.LoadAll(typeof(T).ToString()) as T[]);
-            GameObject[] gos = (Resources.LoadAll<GameObject>("BaseGridMovement") as GameObject[]);
+            GameObject[] gos = (Resources.LoadAll<GameObject>(typeof(T).ToString()) as GameObject[]);
             if (gos == null)
             {
                 Debug.LogError($"cant get this kind({typeof(T).ToString()}) of objs");
@@ -111,9 +111,24 @@ namespace HentaiTools.PoolWa
                     refPos.localPosition = Vector3.zero;
                     refPos.localRotation = Quaternion.identity;
                     MuyPoolManager.Instance.m_pools.Add(tmpWa.GetType(), new MuyObjectPool((tmpWa as MonoBehaviour), refPos));
-                    // MuyPoolManager.Instance.m_pools
+                    // MuyPoolManager.Instance.m_pools.
                 }
             }
+        }
+
+        public void ClearSomePool<T>()
+        {
+            if (m_pools == null)
+            {
+                Debug.LogError("wtf");
+                return;
+            }
+
+            if (m_pools.ContainsKey(typeof(T)))
+            {
+                m_pools[typeof(T)].ClearPool();
+            }
+
         }
 
 
@@ -126,6 +141,7 @@ namespace HentaiTools.PoolWa
         public void EmptyFunc()
         {
             // idk wat is this
+            // can call it to init pool manager safely
             // GameObject go = new GameObject();
         }
 
@@ -152,6 +168,31 @@ namespace HentaiTools.PoolWa
             m_pools[typeof(T)].AddExtend(_count);
 
         }
+
+        public void ResizePool<T>(int _newSize = 20)
+        {
+            if (MuyPoolManager.Instance.m_pools == null)
+                MuyPoolManager.Instance.m_pools = new Dictionary<Type, MuyObjectPool>();
+
+
+            // // Debug.Log(m_pools.Keys);
+            // foreach (var item in m_pools.Keys)
+            // {
+            //     Debug.Log($"wa {item}");
+            // }
+            if (m_pools.ContainsKey(typeof(T)))
+            {
+                m_pools[typeof(T)].ReSizePool(_newSize);
+            }
+            else
+            {
+                // InitSomePool<T>();
+                // todo : wat to do now?
+                Debug.LogError($"this kind({typeof(T)}) pool is not exist");
+            }
+
+        }
+
 
         #endregion
 
