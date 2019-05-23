@@ -9,7 +9,7 @@ Shader "MuyShader/OutlineA"
         _OutlineColor ("Outline Color", Color) = (0, 0, 0, 0)
         _OutlineWid("Outline width",Range(0.0, 5.0)) = 0.1
     }
-    
+
     SubShader
     {
         //
@@ -18,18 +18,19 @@ Shader "MuyShader/OutlineA"
         Pass // render the outline
         {
             Zwrite Off
-            Cull Off
+            // Cull Off
 
             CGPROGRAM
 
             #include "UnityCG.cginc"
 
             #pragma vertex vert
-            #pragma fragment frag 
+            #pragma fragment frag
 
             struct appdata
             {
                 float4 vertex : POSITION;
+                float4 color : COLOR;
                 float3 normal : NORMAL;
             };
 
@@ -37,6 +38,7 @@ Shader "MuyShader/OutlineA"
             {
                 float4 pos : POSITION;
                 float3 normal : NORMAL;
+                float4 color : COLOR;
             };
 
             float _OutlineWid;
@@ -50,25 +52,84 @@ Shader "MuyShader/OutlineA"
                 //// do not do this
                 // v.vertex.xyz *= _OutlineWid;
 
-                v.vertex.xyz *= _OutlineWid;
-                o.pos = UnityObjectToClipPos(v.vertex);  
+                v.vertex.xyz += v.normal * _OutlineWid;
+                // v.vertex.xyz += v.color * _OutlineWid;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.color = _OutlineColor;
                 //// wtf are these
-                // float3 vnormal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);  
-                // float2 offset = TransformViewToProjection(vnormal.xy);  
-                // o.pos.xy += offset * _OutlineWid; 
+                // float3 vnormal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
+                // float2 offset = TransformViewToProjection(vnormal.xy);
+                // o.pos.xy += offset * _OutlineWid;
 
                 return o;
             }
 
             half4 frag(v2f i) : SV_Target
             {
-                return _OutlineColor;
+                return i.color;
             }
 
             ENDCG
         }
 
-        
+        // Pass // render the outline
+        // {
+        //     Zwrite Off
+        //     // Cull Off
+
+        //     CGPROGRAM
+
+        //     #include "UnityCG.cginc"
+
+        //     #pragma vertex vert
+        //     #pragma fragment frag
+
+        //     struct appdata
+        //     {
+        //         float4 vertex : POSITION;
+        //         float4 color : COLOR;
+        //         float3 normal : NORMAL;
+        //     };
+
+        //     struct v2f
+        //     {
+        //         float4 pos : POSITION;
+        //         float3 normal : NORMAL;
+        //         float4 color : COLOR;
+        //     };
+
+        //     float _OutlineWid;
+        //     float4 _OutlineColor;
+
+
+        //     v2f vert(appdata v)
+        //     {
+        //         v2f o;
+
+        //         //// do not do this
+        //         // v.vertex.xyz *= _OutlineWid;
+
+        //         v.vertex.xyz -= v.color * _OutlineWid;
+        //         o.pos = UnityObjectToClipPos(v.vertex);
+        //         o.color = _OutlineColor;
+        //         //// wtf are these
+        //         // float3 vnormal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
+        //         // float2 offset = TransformViewToProjection(vnormal.xy);
+        //         // o.pos.xy += offset * _OutlineWid;
+
+        //         return o;
+        //     }
+
+        //     half4 frag(v2f i) : SV_Target
+        //     {
+        //         return i.color;
+        //     }
+
+        //     ENDCG
+        // }
+
+
+
         // draw default obj
         Pass
         {
@@ -118,7 +179,7 @@ Shader "MuyShader/OutlineA"
             }
             ENDCG
         }
-        
+
     }
 
     FallBack "Diffuse"

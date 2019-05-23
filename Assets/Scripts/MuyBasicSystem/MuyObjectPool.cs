@@ -2,35 +2,81 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HentaiTools
+namespace HentaiTools.PoolWa
 {
 
-    // to change to poco
-    public class MuyObjectPool : MonoBehaviour
+    /// <summary>
+    /// stupid pool for mono
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class MuyObjectPool
     {
-        private static MuyObjectPool instance;
-        public static MuyObjectPool Instance => instance;
-        //public static MuyObjectPool Instance => instance ?? (instance = new MuyObjectPool());
 
-        private void Awake()
+        public MonoBehaviour m_referenceObj;
+        public Transform m_parent;
+        private Queue<MonoBehaviour> m_objs;
+
+
+        public MuyObjectPool()
         {
-            if (instance == null)
-                instance = this;
-            else
-                Destroy(gameObject);
+            m_objs = new Queue<MonoBehaviour>();
+            // AddExtend();
+        }
+        public MuyObjectPool(MonoBehaviour _mono, Transform _parent = null)
+        {
+            m_objs = new Queue<MonoBehaviour>();
+            m_referenceObj = _mono;
+            m_parent = _parent;
+            AddExtend();
         }
 
-        //// Start is called before the first frame update
-        //void Start()
-        //{
+        public void AddExtend(int _addCount = 15)
+        {
+            for (int i = 0; i < _addCount; i++)
+            {
+                MonoBehaviour tmp = GameObject.Instantiate(m_referenceObj, m_parent.position, Quaternion.identity, m_parent);
+                tmp.gameObject.SetActive(false);
+                m_objs.Enqueue(tmp);
+            }
+        }
 
-        //}
+        public MonoBehaviour GetOne(Transform _parent = null)
+        {
+            MonoBehaviour temp;
+            if (m_objs.Count < 0)
+                AddExtend(5);
+            temp = m_objs.Dequeue();
+            if (_parent != null)
+                temp.transform.SetParent(_parent);
+            // temp
+            return temp;
+        }
 
-        //// Update is called once per frame
-        //void Update()
-        //{
+        public void SendBackOne(MonoBehaviour _obj)
+        {
+            if (_obj == null)
+            {
+                Debug.LogError("why send a null obj into the pool");
+                return;
+            }
+            else if (_obj.GetType() != m_referenceObj.GetType())
+            {
+                Debug.LogError("why send a different obj into this pool");
+                return;
+            }
+            m_objs.Enqueue(_obj);
 
-        //}
+        }
+
+
+        public void ClearPool()
+        {
+            while (m_objs.Count > 0)
+            {
+                GameObject.Destroy(m_objs.Dequeue());
+            }
+        }
+
 
         // class end
     }

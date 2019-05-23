@@ -64,7 +64,7 @@
                 UNITY_TRANSFER_FOG(o,o.vertex);
 
                 return o;
-            }
+            } 
 
 
             // draw the actual pixel on tooop
@@ -73,12 +73,16 @@
             {
                 // add
                 fixed4 col = tex2D(_MainTex, i.uv); // idk how to init it
-
+ 
                 // sample the texture
                 if(_AutoAnim>0.0)
-                    col = lerp(tex2D(_MainTex, i.uv),tex2D(_SecondaryTex, i.uv),abs(_Time.z));
+                {
+                    col = lerp(tex2D(_MainTex, i.uv),tex2D(_SecondaryTex, i.uv),abs(_CosTime.z));
+                }
                 else
+                {
                     col = lerp(tex2D(_MainTex, i.uv),tex2D(_SecondaryTex, i.uv),_LerpValue);
+                }
                 
                 // UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
@@ -88,6 +92,5 @@
 
     }
     
-
     FallBack "Diffuse"
 }

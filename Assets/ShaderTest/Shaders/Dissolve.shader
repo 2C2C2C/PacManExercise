@@ -1,14 +1,16 @@
 ﻿Shader "MuyShader/Dissolve"
 {
+    
     Properties
     {
         _MainTex ("Main Texture", 2D) = "white" {}
         // 
         _DissovleTex ("Dissolve Texture", 2D) = "white" {}
-        _DissolveY("current Y of the dissolve effect?",float)=0
         _DissolveSize("size of effect",float)=2 // meter
-        _StartingY("starting point of effecy",float)=-10
+        _DissolveY("current Y of the dissolve effect?",float)=0
+        _StartingY("starting point of effect",float)=-10
     }
+   
     SubShader
     {
         // tags is a dictionary
@@ -75,11 +77,13 @@
             {
                 // func to do
                 float transition = _DissolveY - i.worldPos.y;
+                // clip() is an intrinsic HLSL function. It "discards the current pixel if the specified value is less than zero."
                 clip(_StartingY + (transition + (tex2D(_DissovleTex,i.uv)) * _DissolveSize));
+                
 
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
-                //
+                
                 // clip(1-(i.vertex.x%2));
                 // // apply fog
                 // UNITY_APPLY_FOG(i.fogCoord, col);
@@ -88,4 +92,6 @@
             ENDCG
         }
     }
+
+    FallBack "Diffuse"
 }
