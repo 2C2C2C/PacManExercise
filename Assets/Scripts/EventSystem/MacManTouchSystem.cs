@@ -46,7 +46,7 @@ public class MacManTouchSystem : MonoBehaviour
             case TouchType.macNghost:
                 if (m_isStrong)
                 {
-                    Debug.Log("mac man crush a ghost");
+                    // Debug.Log("mac man crush a ghost");
                     if (HentaiTools.PoolWa.MuyPoolManager.Instance)
                         HentaiTools.PoolWa.MuyPoolManager.Instance.TakeOneBack<Ghost>(evt.m_otherGo.GetComponent<Ghost>());
                     // Destroy(evt.m_otherGo);
@@ -110,7 +110,7 @@ public class MacManTouchSystem : MonoBehaviour
         m_isStrong = true;
         yield return new WaitForSeconds(m_strongDuration);
         m_isStrong = false;
-        Debug.Log($"macman strong end");
+        // Debug.Log($"macman strong end");
     }
 
 

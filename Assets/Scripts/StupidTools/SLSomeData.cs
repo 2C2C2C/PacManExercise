@@ -35,8 +35,6 @@ namespace HentaiTools
             return wa;
         }
 
-
-
         public void SaveData<T>(string _fileName, T _obj)
         {
             if (_fileName == "")

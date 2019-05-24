@@ -21,7 +21,7 @@ namespace HentaiTools.PoolWa
 
         private Dictionary<Type, MuyObjectPool> m_pools;
 
-
+        
         private static MuyPoolManager GetCreateSelf()
         {
             if (MuyPoolManager.instance == null)

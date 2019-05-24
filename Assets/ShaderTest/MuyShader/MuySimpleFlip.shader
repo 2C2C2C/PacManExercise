@@ -1,14 +1,14 @@
 ﻿Shader "MuyShader/MuySimpleFlip"
 {
-    Properties {
-        _MainTex ("Base (RGB)", 2D) = "white" {}
+    Properties 
+    {
+        _MainTex ("Main Texture", 2D) = "white" {}
     }
 
-    SubShader {
+    SubShader 
+    {
 
-        Tags { "RenderType" = "Opaque" }
-
-        Cull Front // wat is this mean
+        Cull Front
 
         CGPROGRAM
 
@@ -25,7 +25,6 @@
         void vert(inout appdata_full v)
         {
             v.normal.xyz = v.normal * -1;
-            // v.normal.xyz = v.normal * 1;
         }
 
         void surf (Input IN, inout SurfaceOutput o) {

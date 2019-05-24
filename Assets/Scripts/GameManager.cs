@@ -12,8 +12,8 @@ public class GameManager
     private int m_scores = 0;
     private int m_levelFinished = 0;
 
-    private readonly int m_ogLevelSizeWidth = 12;
-    private readonly int m_ogLlevelSizeHeight = 6;
+    private readonly int m_ogLevelSizeWidth = 16;
+    private readonly int m_ogLlevelSizeHeight = 8;
     private int m_levelSizeWidth = 12;
     private int m_levelSizeHeight = 12;
 

@@ -344,6 +344,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 858701793661277769, guid: 8f4a986da1584bc429b0bab119ed98a4,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 7187123278396197178, guid: 8f4a986da1584bc429b0bab119ed98a4,
         type: 3}
       propertyPath: m_IsActive
@@ -566,7 +571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3343b65450fee499c6a0c2640d59c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_camera: {fileID: 0}
+  m_camera: {fileID: 1690155342}
 --- !u!20 &1690155342
 Camera:
   m_ObjectHideFlags: 0
