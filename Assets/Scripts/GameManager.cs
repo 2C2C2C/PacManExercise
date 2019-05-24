@@ -12,6 +12,15 @@ public class GameManager
     private int m_scores = 0;
     private int m_levelFinished = 0;
 
+    private int m_levelSizeWidth = 8;
+    private int m_levelSizeHeight = 8;
+
+    /// <summary>
+    /// todo : do not do this way,
+    /// read it from other file may be better
+    /// </summary>
+    private int m_tempCount = 3;
+
     #region actions
 
     public Action OnScoreChanged;
@@ -21,12 +30,14 @@ public class GameManager
     public GameManager()
     {
         m_scores = 0;
+        m_levelFinished = 0;
     }
 
     public void ResetStatus()
     {
         m_levelFinished = 0;
         m_scores = 0;
+        OnScoreChanged?.Invoke();
     }
 
     public void AddScore(int _add)
@@ -47,6 +58,17 @@ public class GameManager
     public int GetNowScore()
     {
         return m_scores;
+    }
+
+    public void AddLevelCount(int _add = 1)
+    {
+        m_levelFinished = m_levelFinished + _add;
+        if (m_levelFinished % m_tempCount == 0)
+        {
+            // gain difficulty
+            m_levelSizeHeight += 4;
+            m_levelSizeWidth += 4;
+        }
     }
 
     // class end

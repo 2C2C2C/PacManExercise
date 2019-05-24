@@ -6,12 +6,12 @@ public class MacMan : BaseGridMovement
 {
     private Material m_mat;
     private Color m_ogColor;
-    private float m_originalSpeed;
+    [SerializeField] private float m_originalSpeed = 3.0f;
 
     protected override void Awake()
     {
         base.Awake();
-        m_originalSpeed = movementSpeed;
+        m_originalSpeed = m_movementSpeed;
         if (GetComponentInChildren<MeshRenderer>())
         {
             m_mat = GetComponentInChildren<MeshRenderer>().material;
@@ -53,6 +53,19 @@ public class MacMan : BaseGridMovement
 
     }
 
+    public override void InitSelfPostition()
+    {
+        m_position = transform.position;
+        m_targetPosition = m_position;
+        m_targetGridPos = m_gridPos;
+        m_inputDirection = IntVector2.IntVectorZero;
+    }
+
+    public void ResetMacMan()
+    {
+        m_movementSpeed = m_originalSpeed;
+        m_mat.SetColor("_Color", Color.white);
+    }
 
     protected Coroutine m_blinkingCoroutine;
     public void StartBlinking(float _duration)
@@ -80,9 +93,13 @@ public class MacMan : BaseGridMovement
     protected Coroutine m_speedUpCoroutine;
     public void StartSpeedUp(float _duration = 4.0f)
     {
-        m_mat.SetColor("_Color", Color.blue);
-        m_ogColor = Color.blue;
-        movementSpeed *= 1.2f;
+
+        // m_mat.SetColor("_Color", Color.blue);
+        m_movementSpeed += 0.2f * m_originalSpeed;
+        float tmp = (m_movementSpeed - m_originalSpeed) / m_originalSpeed;
+        tmp %= 1.0f;
+        m_ogColor = Color.Lerp(Color.white, Color.blue, tmp);
+        m_mat.SetColor("_Color", m_ogColor);
 
         //if (m_speedUpCoroutine != null)
         //    StopCoroutine(m_speedUpCoroutine);
@@ -91,10 +108,10 @@ public class MacMan : BaseGridMovement
     protected IEnumerator SpeedUpLast(float _duration)
     {
         m_mat.SetColor("_Color", Color.blue);
-        movementSpeed *= 1.3f;
+        m_movementSpeed *= 1.3f;
         yield return new WaitForSeconds(_duration);
         m_mat.SetColor("_Color", Color.white);
-        movementSpeed = m_originalSpeed;
+        m_movementSpeed = m_originalSpeed;
     }
 
     // class end

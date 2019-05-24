@@ -2,7 +2,7 @@
 
 public class BaseGridMovement : BaseGridObject
 {
-    public float movementSpeed;
+    public float m_movementSpeed;
 
     protected IntVector2 m_inputDirection;
     protected IntVector2 m_targetGridPos;
@@ -13,7 +13,7 @@ public class BaseGridMovement : BaseGridObject
 
     protected virtual void Awake()
     {
-        GetComponent<Collider>().enabled = false;
+        // GetComponent<Collider>().enabled = false;
     }
 
     protected virtual void Start()
@@ -46,16 +46,25 @@ public class BaseGridMovement : BaseGridObject
         }
         else
         {
-            m_movementLerpPercentage += Time.deltaTime * movementSpeed;
+            m_movementLerpPercentage += Time.deltaTime * m_movementSpeed;
             transform.position = Vector3.Lerp(m_position, m_targetPosition, m_movementLerpPercentage);
         }
         //if (transform.position == m_targetPosition) return;
 
-        if (!GetComponent<Collider>().enabled)
-        {
-            GetComponent<Collider>().enabled = true;
-        }
+        // if (!GetComponent<Collider>().enabled)
+        // {
+        //     GetComponent<Collider>().enabled = true;
+        // }
     }
+
+
+    public override void InitSelfPostition()
+    {
+        m_position = transform.position;
+        m_targetPosition = m_position;
+        m_targetGridPos = m_gridPos;
+    }
+
 
     // class end
 }

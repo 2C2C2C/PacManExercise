@@ -22,25 +22,6 @@ public class Ghost : BaseGridMovement
         new IntVector2(IntVector2.DownVector2Int)
     };
 
-    //private IntVector2 m_dirCanGo = new IntVector2[4] { };
-
-    //protected Collider collider;
-    //private void Awake()
-    //{
-    //    collider = GetComponent<Collider>();
-    //    collider.enabled = false;
-    //}
-    //protected void Start()
-    //{
-    //    collider = GetComponent<Collider>();
-    //}
-    //IEnumerator InitLast()
-    //{
-    //    yield return new WaitForSeconds(0.5f);
-    //    collider.enabled = true;
-    //}
-
-
     int j = 0;
     protected override void Update()
     {
@@ -80,20 +61,6 @@ public class Ghost : BaseGridMovement
         //m_movementLerpPercentage += Time.deltaTime * movementSpeed;
         //transform.position = Vector3.Lerp(transform.position, m_targetPosition, m_movementLerpPercentage);
     }
-
-
-
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-
-    //}
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
 
 
     // class end

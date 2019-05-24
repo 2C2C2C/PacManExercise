@@ -54,7 +54,8 @@ namespace HentaiTools.PoolWa
         public MonoBehaviour GetOne(Transform _parent = null)
         {
             MonoBehaviour temp;
-            if (m_objs.Count < 0)
+            // Debug.Log($"now count {m_objs.Count}");
+            if (m_objs.Count <= 0)
                 AddExtend(10);
             temp = m_objs.Dequeue();
             m_lendOutCount++;
@@ -78,6 +79,8 @@ namespace HentaiTools.PoolWa
                 return;
             }
             _obj.gameObject.SetActive(false);
+            // if (m_parent != null)
+            _obj.transform.SetParent(m_parent);
             m_objs.Enqueue(_obj);
             m_lendOutCount--;
             m_storeCount = m_objs.Count;
@@ -129,6 +132,7 @@ namespace HentaiTools.PoolWa
                 }
             }
         }
+
         // todo : add a beter method
         public void TakeAllBack()
         {
@@ -139,6 +143,7 @@ namespace HentaiTools.PoolWa
             }
             else
             {
+                // todo : use delegate to call TakeAllBack<T> ?
                 foreach (Transform t in m_parent)
                 {
                     if (t.gameObject.activeSelf)

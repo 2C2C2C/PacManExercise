@@ -221,6 +221,8 @@ namespace HentaiTools.PoolWa
             if (!m_pools.ContainsKey(typeof(T)))
             {
                 // todo : if didnt contain, create it 
+                // or destroy obj
+                GameObject.Destroy(_obj.gameObject);
                 return;
             }
             m_pools[typeof(T)].TakeOneBack(_obj);
@@ -239,6 +241,8 @@ namespace HentaiTools.PoolWa
                 // System.Object so = pool.Value;
                 // so.GetType("MuyObjectPool").MakeGenericType(pool.Key).
                 // Debug.Log(pool.Value);
+
+                // todo : cost a lot of performce, try another way or redo the pool
                 MethodInfo method = pool.Value.GetType().GetMethod("TakeAllBackWa");
                 MethodInfo generic = method.MakeGenericMethod(pool.Key);
                 generic.Invoke(pool.Value, null);

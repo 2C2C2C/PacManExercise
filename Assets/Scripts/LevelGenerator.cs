@@ -179,7 +179,7 @@ public class LevelGenerator : MonoBehaviour
     protected IEnumerator GenerateLevelLast()
     {
         int builderLast = m_spawnerCounts;
-        int i, j, k;
+        int i, j;// k;
         // build path
         while (builderLast > 0)
         {
@@ -220,9 +220,12 @@ public class LevelGenerator : MonoBehaviour
                     LevelGenerator.Grids[i - 1, j] = 2;
 
                 BaseGridObject bgo;
-                bgo=TakeObjFromPool(LevelGenerator.Grids[i - 1, j]);
-                bgo = Instantiate(baseGridObjects[LevelGenerator.Grids[i - 1, j]], new Vector3(j, m_levelSizeY - i, 0.0f), Quaternion.identity);
+                bgo = TakeObjFromPool(LevelGenerator.Grids[i - 1, j]);
+                // bgo = Instantiate(baseGridObjects[LevelGenerator.Grids[i - 1, j]], new Vector3(j, m_levelSizeY - i, 0.0f), Quaternion.identity);
+                bgo.transform.position = new Vector3(j, m_levelSizeY - i, 0.0f);
+                bgo.transform.rotation = Quaternion.identity;
                 bgo.m_gridPos = new IntVector2(j, m_levelSizeY - i);
+                bgo.InitSelfPostition();
                 // switch (LevelGenerator.Grids[i - 1, j])
                 // {
                 //     case 0:// pills
@@ -299,18 +302,22 @@ public class LevelGenerator : MonoBehaviour
                 break;
             case 0:
                 bgo = (MuyPoolManager.Instance.GetOne<Pill>() as BaseGridObject);
+                m_pillCounts++;
                 (bgo as Pill).InitPill();
                 break;
             case 4:
                 bgo = (MuyPoolManager.Instance.GetOne<Pill>() as BaseGridObject);
+                m_pillCounts++;
                 (bgo as Pill).InitPill(PillType.Strong);
                 break;
             case 5:
                 bgo = (MuyPoolManager.Instance.GetOne<Pill>() as BaseGridObject);
+                m_pillCounts++;
                 (bgo as Pill).InitPill(PillType.Fast);
                 break;
             default:
                 bgo = (MuyPoolManager.Instance.GetOne<Pill>() as BaseGridObject);
+                m_pillCounts++;
                 (bgo as Pill).InitPill();
                 break;
         }
@@ -318,9 +325,23 @@ public class LevelGenerator : MonoBehaviour
     }
 
 
-    public void FinishLevel()
+    public void FinishLevel(bool _playerWin = true)
     {
         // MuyPoolManager.Instance
+        MuyPoolManager.Instance.TakeAllBack();
+        if (_playerWin)
+        {
+            // player win dis level
+            NewGenerateLevel();
+            GameManager.Instance.AddLevelCount();
+        }
+        else
+        {
+            // player lose where
+            GameManager.Instance.ResetStatus();
+            NewGenerateLevel();
+        }
+
         OnLevelFinished?.Invoke();
     }
 

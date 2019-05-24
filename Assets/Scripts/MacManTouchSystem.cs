@@ -47,15 +47,21 @@ public class MacManTouchSystem : MonoBehaviour
                 if (m_isStrong)
                 {
                     Debug.Log("mac man crush a ghost");
+                    if (HentaiTools.PoolWa.MuyPoolManager.Instance)
+                        HentaiTools.PoolWa.MuyPoolManager.Instance.TakeOneBack<Ghost>(evt.m_otherGo.GetComponent<Ghost>());
+                    // Destroy(evt.m_otherGo);
                     GameManager.Instance.AddScore(20);
-                    Destroy(evt.m_otherGo);
                 }
                 else
                 {
                     Debug.Log("mac man be caught by a ghost");
-                    Destroy(evt.m_otherGo);
+                    m_macman.ResetMacMan();
+                    if (HentaiTools.PoolWa.MuyPoolManager.Instance)
+                        HentaiTools.PoolWa.MuyPoolManager.Instance.TakeOneBack<MacMan>(m_macman);
+                    // Destroy(evt.m_otherGo);
                     GameManager.Instance.ResetStatus();
-                    LevelGenerator.ReStartTest();
+                    LevelGenerator.Instance.FinishLevel(false);
+                    // LevelGenerator.ReStartTest();
                 }
                 break;
             case TouchType.macNpill:
@@ -83,11 +89,15 @@ public class MacManTouchSystem : MonoBehaviour
                     default:
                         break;
                 }
-                Destroy(evt.m_otherGo);
+
+                if (HentaiTools.PoolWa.MuyPoolManager.Instance)
+                    HentaiTools.PoolWa.MuyPoolManager.Instance.TakeOneBack<Pill>(pill);
+                // Destroy(pill.gameObject);
                 LevelGenerator.Instance.m_pillCounts--;
                 if (LevelGenerator.Instance.m_pillCounts <= 0)
                 {
-                    LevelGenerator.ReStartTest();
+                    // LevelGenerator.ReStartTest();
+                    LevelGenerator.Instance.FinishLevel();
                     return;
                 }
                 break;

@@ -205,7 +205,7 @@ MonoBehaviour:
   m_gridPos:
     x: 0
     y: 0
-  movementSpeed: 1
+  m_movementSpeed: 2.5
   m_movementLerpPercentage: 0
   dirCanGo:
   - x: 1
