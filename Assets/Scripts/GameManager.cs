@@ -12,14 +12,16 @@ public class GameManager
     private int m_scores = 0;
     private int m_levelFinished = 0;
 
-    private int m_levelSizeWidth = 8;
-    private int m_levelSizeHeight = 8;
+    private readonly int m_ogLevelSizeWidth = 12;
+    private readonly int m_ogLlevelSizeHeight = 6;
+    private int m_levelSizeWidth = 12;
+    private int m_levelSizeHeight = 12;
 
     /// <summary>
     /// todo : do not do this way,
     /// read it from other file may be better
     /// </summary>
-    private int m_tempCount = 3;
+    private int m_tempCount = 2;
 
     #region actions
 
@@ -37,6 +39,8 @@ public class GameManager
     {
         m_levelFinished = 0;
         m_scores = 0;
+        m_levelSizeHeight = m_ogLlevelSizeHeight;
+        m_levelSizeWidth = m_ogLevelSizeWidth;
         OnScoreChanged?.Invoke();
     }
 
@@ -63,12 +67,13 @@ public class GameManager
     public void AddLevelCount(int _add = 1)
     {
         m_levelFinished = m_levelFinished + _add;
-        if (m_levelFinished % m_tempCount == 0)
+        if (_add != 0 && m_levelFinished % m_tempCount == 0)
         {
             // gain difficulty
             m_levelSizeHeight += 4;
             m_levelSizeWidth += 4;
         }
+        LevelGenerator.ExtendGrids(m_levelSizeHeight, m_levelSizeWidth);
     }
 
     // class end

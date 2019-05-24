@@ -39,6 +39,24 @@ public class LevelGenerator : MonoBehaviour
     #endregion
 
 
+    // /// <summary>
+    // /// 0 pill, 1 wall, 2 ghost, 3 macman, 4 strong_pill, 5 fast_pill
+    // /// </summary>
+    // public static int[,] Grids = new int[,]
+    // {
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    //     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    // };
+
     /// <summary>
     /// 0 pill, 1 wall, 2 ghost, 3 macman, 4 strong_pill, 5 fast_pill
     /// </summary>
@@ -52,17 +70,24 @@ public class LevelGenerator : MonoBehaviour
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
     };
 
+
+
+    public static void ExtendGrids(int _sizeHigh, int _sizeWid)
+    {
+        Grids = new int[_sizeHigh, _sizeWid];
+        LevelGenerator.m_levelSizeY = LevelGenerator.Grids.GetLength(0);
+        LevelGenerator.m_levelSizeX = LevelGenerator.Grids.GetLength(1);
+    }
 
     private void Awake()
     {
         //Debug.Log(LevelGenerator.Grid.Length);
 
         Instance = this;
+
+        GameManager.Instance.AddLevelCount(0);
 
         Debug.Log(LevelGenerator.Grids.GetLength(0)); // 7
         Debug.Log(LevelGenerator.Grids.GetLength(1)); // 9
@@ -332,8 +357,8 @@ public class LevelGenerator : MonoBehaviour
         if (_playerWin)
         {
             // player win dis level
-            NewGenerateLevel();
             GameManager.Instance.AddLevelCount();
+            NewGenerateLevel();
         }
         else
         {

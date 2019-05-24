@@ -59,7 +59,6 @@ public class MacManTouchSystem : MonoBehaviour
                     if (HentaiTools.PoolWa.MuyPoolManager.Instance)
                         HentaiTools.PoolWa.MuyPoolManager.Instance.TakeOneBack<MacMan>(m_macman);
                     // Destroy(evt.m_otherGo);
-                    GameManager.Instance.ResetStatus();
                     LevelGenerator.Instance.FinishLevel(false);
                     // LevelGenerator.ReStartTest();
                 }

@@ -97,7 +97,8 @@ public class MacMan : BaseGridMovement
         // m_mat.SetColor("_Color", Color.blue);
         m_movementSpeed += 0.2f * m_originalSpeed;
         float tmp = (m_movementSpeed - m_originalSpeed) / m_originalSpeed;
-        tmp %= 1.0f;
+        if (tmp > 1.0)
+            tmp = 1.0f;
         m_ogColor = Color.Lerp(Color.white, Color.blue, tmp);
         m_mat.SetColor("_Color", m_ogColor);
 
