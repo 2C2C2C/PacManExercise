@@ -6,8 +6,23 @@ using HentaiTools.PoolWa;
 
 public class GameManager
 {
+    private static readonly System.Object m_lock = new Object();
     private static GameManager instance;
-    public static GameManager Instance => instance ?? (instance = new GameManager());
+    // public static GameManager Instance => instance ?? (instance = new GameManager());
+    public static GameManager Instance
+    {
+        get
+        {
+            lock (m_lock)
+            {
+                if (GameManager.instance == null)
+                {
+                    GameManager.instance = new GameManager();
+                }
+                return GameManager.instance;
+            }
+        }
+    }
 
     private int m_scores = 0;
     private int m_levelFinished = 0;

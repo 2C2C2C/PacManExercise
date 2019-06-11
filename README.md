@@ -5,7 +5,7 @@ unity pacman exercise
 
 very simple procedure generator
 
-unity 2018.3.9
+unity 2018.4.0
 
 move: arrow-key
 pill: red-invincible, blue-fast
