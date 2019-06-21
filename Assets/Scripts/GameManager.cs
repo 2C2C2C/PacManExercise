@@ -13,7 +13,7 @@ public class GameManager
     {
         get
         {
-            lock (m_lock)
+            lock (m_lock) // save 
             {
                 if (GameManager.instance == null)
                 {
