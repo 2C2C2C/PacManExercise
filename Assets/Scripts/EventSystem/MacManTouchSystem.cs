@@ -65,6 +65,7 @@ public class MacManTouchSystem : MonoBehaviour
                 {
                     // Debug.Log("mac man be caught by a ghost");
                     SoundManager.Instance.PlaySfxTemp("death_01");
+                    (UIManager.Instance.GetScreen<GameScreenA>() as GameScreenA).ShowLevelEndText(false);
                     m_macman.ResetMacMan();
                     if (HentaiTools.PoolWa.MuyPoolManager.Instance)
                         HentaiTools.PoolWa.MuyPoolManager.Instance.TakeOneBack<MacMan>(m_macman);
@@ -107,6 +108,7 @@ public class MacManTouchSystem : MonoBehaviour
                 if (LevelGenerator.Instance.m_pillCounts <= 0)
                 {
                     // LevelGenerator.ReStartTest();
+                    (UIManager.Instance.GetScreen<GameScreenA>() as GameScreenA).ShowLevelEndText(true);
                     LevelGenerator.Instance.FinishLevel();
                     return;
                 }

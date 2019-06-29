@@ -103,5 +103,16 @@ public class SoundManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(m_clipsToPlay[_clipName], Vector3.zero);
     }
 
+    public void PitchUpSFX(float _rate = 0.1f)
+    {
+        m_sfxSource01.pitch = 1.0f + _rate;
+        m_sfxSource02.pitch = 1.0f + _rate;
+    }
+    public void ResetSFCPitch()
+    {
+        m_sfxSource01.pitch = 1.0f;
+        m_sfxSource02.pitch = 1.0f;
+    }
+
     // class end
 }

@@ -95,7 +95,7 @@ public class MacMan : BaseGridMovement
     public void ResetMacMan()
     {
         m_movementSpeed = m_originalSpeed;
-        m_mat.SetColor("_Color", Color.white);
+        m_mat.SetColor("_Color", Color.green);
     }
 
     protected Coroutine m_blinkingCoroutine;
@@ -135,26 +135,31 @@ public class MacMan : BaseGridMovement
     protected Coroutine m_speedUpCoroutine;
     public void StartSpeedUp(float _duration = 4.0f)
     {
-
         // m_mat.SetColor("_Color", Color.blue);
-        m_movementSpeed += 0.2f * m_originalSpeed;
+        // m_movementSpeed += 0.4f * m_originalSpeed;
         float tmp = (m_movementSpeed - m_originalSpeed) / m_originalSpeed;
         if (tmp > 1.0)
             tmp = 1.0f;
-        m_ogColor = Color.Lerp(Color.white, Color.blue, tmp);
-        m_mat.SetColor("_Color", m_ogColor);
+        m_ogColor = Color.blue;
+        m_mat.SetColor("_Color", Color.blue);
 
-        //if (m_speedUpCoroutine != null)
-        //    StopCoroutine(m_speedUpCoroutine);
-        //StartCoroutine(SpeedUpLast(_duration));
+        if (m_speedUpCoroutine != null)
+            StopCoroutine(m_speedUpCoroutine);
+        StartCoroutine(SpeedUpLast(_duration));
     }
     protected IEnumerator SpeedUpLast(float _duration)
     {
+        // todo : remove dis
+        SoundManager.Instance.PitchUpSFX(0.2f);
         m_mat.SetColor("_Color", Color.blue);
+        float oldSpeed = m_movementSpeed;
         m_movementSpeed *= 1.3f;
         yield return new WaitForSeconds(_duration);
-        m_mat.SetColor("_Color", Color.white);
-        m_movementSpeed = m_originalSpeed;
+        m_mat.SetColor("_Color", Color.green);
+        m_movementSpeed = oldSpeed * (1.0f + 0.1f);
+        m_ogColor = Color.green;
+        // todo : remove dis
+        SoundManager.Instance.ResetSFCPitch();
     }
 
 
