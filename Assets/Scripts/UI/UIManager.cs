@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
 
     public static UIManager Instance;
+    public UnityEngine.EventSystems.EventSystem ues = null;
     private Dictionary<System.Type, BasicScreen> m_uiScreens;
 
     private void Awake()

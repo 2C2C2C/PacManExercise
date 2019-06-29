@@ -26,7 +26,8 @@ public class GameManager
 
     private int m_scores = 0;
     private int m_levelFinished = 0;
-
+    private bool m_isPaused = false;
+    public bool IsPaused => m_isPaused;
     private readonly int m_ogLevelSizeWidth = 16;
     private readonly int m_ogLlevelSizeHeight = 12;
     private int m_levelSizeWidth = 12;
@@ -89,6 +90,11 @@ public class GameManager
             m_levelSizeWidth += 4;
         }
         LevelGenerator.ExtendGrids(m_levelSizeHeight, m_levelSizeWidth);
+    }
+
+    public void PauseTheGame(bool _pause = true)
+    {
+        m_isPaused = _pause;
     }
 
     // class end

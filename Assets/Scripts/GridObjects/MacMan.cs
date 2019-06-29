@@ -61,6 +61,9 @@ public class MacMan : BaseGridMovement
 
     private void OnTriggerEnter(Collider _other)
     {
+        if (GameManager.Instance.IsPaused)
+            return;
+
         if (_other.CompareTag("Ghost"))
         {
             //Debug.Log("col ghost");

@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 public class MenuScreen : BasicScreen
 {
     [SerializeField]
-    protected string m_gameSceneName;
-    public Button m_btnStart;
-    public Button m_btnQuit;
+    protected string m_gameSceneName = null;
+    public Button m_btnStart = null;
+    public Button m_btnQuit = null;
 
     private void Awake()
     {
@@ -52,6 +52,10 @@ public class MenuScreen : BasicScreen
             }
         }
 
+        OnScreenOpen += () =>
+          {
+              UIManager.Instance.ues.SetSelectedGameObject(m_btnStart.gameObject);
+          };
     }
 
 

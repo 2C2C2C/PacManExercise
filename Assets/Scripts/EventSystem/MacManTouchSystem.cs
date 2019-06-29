@@ -12,11 +12,11 @@ public class MacManTouchSystem : MonoBehaviour
     public MacMan m_macman = null;
 
     [SerializeField]
-    protected float m_strongDuration = 4.0f;
-    private bool m_isStrong;
-    private Coroutine m_strongLast;
-    private bool m_isSpeedUp;
-    private Coroutine m_speedUpLast;
+    protected float m_strongDuration = 5.0f;
+    private bool m_isStrong = false;
+    private Coroutine m_strongLast = null;
+    private bool m_isSpeedUp = false;
+    private Coroutine m_speedUpLast = null;
 
     private void Awake()
     {
@@ -59,10 +59,12 @@ public class MacManTouchSystem : MonoBehaviour
                     }
                     // Destroy(evt.m_otherGo);
                     GameManager.Instance.AddScore(20);
+                    SoundManager.Instance.PlaySfxTemp("eat_ghost_01");
                 }
                 else
                 {
-                    Debug.Log("mac man be caught by a ghost");
+                    // Debug.Log("mac man be caught by a ghost");
+                    SoundManager.Instance.PlaySfxTemp("death_01");
                     m_macman.ResetMacMan();
                     if (HentaiTools.PoolWa.MuyPoolManager.Instance)
                         HentaiTools.PoolWa.MuyPoolManager.Instance.TakeOneBack<MacMan>(m_macman);
@@ -97,7 +99,7 @@ public class MacManTouchSystem : MonoBehaviour
                     default:
                         break;
                 }
-
+                SoundManager.Instance.PlaySfxTemp("eat_pill_01");
                 if (HentaiTools.PoolWa.MuyPoolManager.Instance)
                     HentaiTools.PoolWa.MuyPoolManager.Instance.TakeOneBack<Pill>(pill);
                 // Destroy(pill.gameObject);

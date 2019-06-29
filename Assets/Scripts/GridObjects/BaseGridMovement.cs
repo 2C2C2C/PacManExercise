@@ -28,6 +28,10 @@ public class BaseGridMovement : BaseGridObject
 
     protected virtual void Update()
     {
+        if (GameManager.Instance.IsPaused)
+            return;
+
+        // for move
         //Debug.Log("inputDir " + m_inputDirection.x.ToString() + "," + m_inputDirection.y.ToString());
         if (transform.position == m_targetPosition)
         {

@@ -6,6 +6,7 @@ using System.Linq;
 using MacManTools;
 using Newtonsoft.Json;
 using HentaiTools.PoolWa;
+using DG.Tweening;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -255,6 +256,7 @@ public class LevelGenerator : MonoBehaviour
                 bgo.transform.rotation = Quaternion.identity;
                 bgo.m_gridPos = new IntVector2(j, m_levelSizeY - i);
                 bgo.InitSelfPostition();
+                ObjMoveTest(bgo.transform, bgo.transform.position, bgo.transform.position - Vector3.up * 25.0f, 1.5f);
                 // switch (LevelGenerator.Grids[i - 1, j])
                 // {
                 //     case 0:// pills
@@ -298,8 +300,16 @@ public class LevelGenerator : MonoBehaviour
         GameManager.Instance.AddScore(0);
         Debug.Log("level is done");
         OnLevelGeneratingFinish?.Invoke();
-    }
 
+        (UIManager.Instance.GetScreen<GameScreenA>() as GameScreenA).SetReadyText(true);
+        GameManager.Instance.PauseTheGame(true);
+        Invoke("Ptest", 3.0f);
+    }
+    public void Ptest()
+    {
+        (UIManager.Instance.GetScreen<GameScreenA>() as GameScreenA).SetReadyText(false);
+        GameManager.Instance.PauseTheGame(false);
+    }
 
     //// for test
     //private void Update()
@@ -381,6 +391,15 @@ public class LevelGenerator : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+
+    public void ObjMoveTest(Transform _bgoTransform, Vector3 _posShouldBe, Vector3 _posGoesFrom, float _duration)
+    {
+        _bgoTransform.position = _posGoesFrom;
+        _bgoTransform.DOMove(_posShouldBe, _duration + Random.Range(0.1f, 0.6f), false).OnComplete(() =>
+        {
+            _bgoTransform.position = _posShouldBe;
+        });
+    }
 
     // class end
 }
