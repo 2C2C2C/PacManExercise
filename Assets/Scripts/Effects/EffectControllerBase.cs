@@ -48,6 +48,7 @@ public class EffectControllerBase : MonoBehaviour
 
     public virtual void StopIt()
     {
+        m_mainParticle.Stop();
         foreach (ParticleSystem patsys in m_mainParticle.GetComponentsInChildren<ParticleSystem>())
         {
             patsys.Stop();

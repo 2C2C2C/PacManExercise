@@ -91,7 +91,7 @@ public class MacMan : BaseGridMovement
     }
 
     protected Coroutine m_blinkingCoroutine;
-    public void StartBlinking(float _duration)
+    public void PlayStrongEffects(float _duration)
     {
         if (m_blinkingCoroutine != null)
             StopCoroutine(m_blinkingCoroutine);
@@ -100,7 +100,14 @@ public class MacMan : BaseGridMovement
     protected IEnumerator BlinkingLast(float _duration)
     {
         if (m_stringRing)
+        {
+            m_stringRing.StopIt();
+            m_stringRing.gameObject.SetActive(false);
+            // yield return new WaitForSeconds(0.1f);
+            m_stringRing.SetUp(_duration);
+            m_stringRing.gameObject.SetActive(true);
             m_stringRing.PlayIt();
+        }
         float temp = 0.0f;
         //Color tmpColor = m_mat.color;
         while (temp < _duration)
@@ -113,8 +120,8 @@ public class MacMan : BaseGridMovement
             temp += 0.2f;
         }
         m_mat.SetColor("_Color", m_ogColor);
-        if (m_stringRing)
-            m_stringRing.StopIt();
+        // if (m_stringRing)
+        //     m_stringRing.StopIt();
     }
 
     protected Coroutine m_speedUpCoroutine;

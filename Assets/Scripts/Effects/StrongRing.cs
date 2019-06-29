@@ -19,7 +19,11 @@ public class StrongRing : EffectControllerBase
 
     public void SetUp(float _duration)
     {
+        // StopIt();
         m_effectDuration = _duration;
+        var ptsMain = m_mainParticle.main;
+        ptsMain.duration = _duration - m_mainParticle.main.startLifetime.Evaluate(0.0f);
+        // m_mainParticle.main.duration=
     }
 
 

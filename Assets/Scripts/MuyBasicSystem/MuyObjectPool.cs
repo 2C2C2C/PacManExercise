@@ -78,6 +78,7 @@ namespace HentaiTools.PoolWa
                 Debug.LogError("why send a different obj into this pool");
                 return;
             }
+            _obj.StopAllCoroutines();
             _obj.gameObject.SetActive(false);
             // if (m_parent != null)
             _obj.transform.SetParent(m_parent);

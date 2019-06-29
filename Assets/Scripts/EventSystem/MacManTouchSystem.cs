@@ -51,7 +51,7 @@ public class MacManTouchSystem : MonoBehaviour
                     // Debug.Log("mac man crush a ghost");
                     if (MuyPoolManager.Instance)
                     {
-
+                        CameraFollow.Instance.CameraShake4BreakGhost(0.4f);
                         EffectControllerBase fx = MuyPoolManager.Instance.GetOne<GhostCracked>(evt.m_otherGo.transform.position) as EffectControllerBase;
                         Debug.Log($"effect pos {evt.m_otherGo.transform.position}");
                         fx.PlayIt();
@@ -90,7 +90,8 @@ public class MacManTouchSystem : MonoBehaviour
                             StopCoroutine(m_strongLast);
                         GameManager.Instance.AddScore(10);
                         m_strongLast = StartCoroutine(MacManStrongLast());
-                        m_macman.StartBlinking(m_strongDuration);
+                        m_macman.PlayStrongEffects(m_strongDuration);
+
                         //Debug.Log("mac man eat power pill la");
                         break;
                     default:

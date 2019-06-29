@@ -281,7 +281,8 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        CameraFollow cfwa = Camera.main.GetComponent<CameraFollow>();
+        // CameraFollow cfwa = Camera.main.GetComponent<CameraFollow>();
+        CameraFollow cfwa = FindObjectOfType<CameraFollow>();
         if (cfwa)
         {
             cfwa.m_targetToFollow = FindObjectOfType<MacMan>().transform;

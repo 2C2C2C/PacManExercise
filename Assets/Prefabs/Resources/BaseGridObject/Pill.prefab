@@ -127,8 +127,8 @@ MonoBehaviour:
     x: 0
     y: 0
   m_meshRoot: {fileID: 1213362266}
+  m_mesh: {fileID: 0}
   m_pillType: 0
-  m_mat: {fileID: 0}
 --- !u!135 &354992725
 SphereCollider:
   m_ObjectHideFlags: 0
