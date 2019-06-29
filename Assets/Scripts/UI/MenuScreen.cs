@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class MenuScreen : BasicScreen
 {
@@ -54,18 +55,23 @@ public class MenuScreen : BasicScreen
 
         OnScreenOpen += () =>
           {
+              SetInitState();
               UIManager.Instance.ues.SetSelectedGameObject(m_btnStart.gameObject);
           };
+
     }
 
 
     public void StartGame()
     {
+        m_btnQuit.interactable = false;
+        m_btnStart.interactable = false;
         StartCoroutine(StartGameLast());
-
     }
     protected IEnumerator StartGameLast()
     {
+        m_btnStart.transform.DOPunchScale(new Vector3(1.4f, 1.4f, 1.4f), 1.0f, 3);
+        yield return new WaitForSeconds(2.0f);
         AsyncOperation ao = SceneManager.LoadSceneAsync(m_gameSceneName);
         ao.allowSceneActivation = true;
         ao.completed += (a) =>
@@ -83,7 +89,11 @@ public class MenuScreen : BasicScreen
         //ao.progress
     }
 
-
+    private void SetInitState()
+    {
+        m_btnStart.interactable = true;
+        m_btnQuit.interactable = true;
+    }
 
     public void QuitGame()
     {

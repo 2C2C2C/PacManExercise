@@ -5,6 +5,11 @@ using System.Linq;
 
 public class Ghost : BaseGridMovement
 {
+    [SerializeField] private Animator m_bodyAC = null;
+    [SerializeField] private Animator m_faceAC = null;
+
+
+
     [SerializeField]
     private IntVector2[] dirCanGo = new IntVector2[4]
     {
@@ -25,6 +30,7 @@ public class Ghost : BaseGridMovement
     int j = 0;
     protected override void Update()
     {
+
         if (transform.position == m_targetPosition)
         {
             //int j = 0;
@@ -54,6 +60,25 @@ public class Ghost : BaseGridMovement
             }
 
         }
+
+        //update anim
+        if (m_inputDirection.x != 0)
+        {
+            // look hori
+            if (m_inputDirection.x < 0)
+                m_faceAC.SetInteger("LookDir", 2);
+            else
+                m_faceAC.SetInteger("LookDir", 3);
+        }
+        else
+        {
+            if (m_inputDirection.y < 0)
+                m_faceAC.SetInteger("LookDir", 1);
+            else
+                m_faceAC.SetInteger("LookDir", 0);
+        }
+
+        // move
         base.Update();
 
         //if (transform.position == m_targetPosition) return;
