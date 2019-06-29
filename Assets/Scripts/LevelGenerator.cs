@@ -109,6 +109,10 @@ public class LevelGenerator : MonoBehaviour
         MuyPoolManager.Instance.ResizePool<Wall>(LevelGenerator.m_levelSizeY * LevelGenerator.m_levelSizeX);
         MuyPoolManager.Instance.ResizePool<Pill>(LevelGenerator.m_levelSizeY * LevelGenerator.m_levelSizeX);
 
+        MuyPoolManager.Instance.InitSomePool<EffectControllerBase>(1);
+        MuyPoolManager.Instance.ResizePool<GhostCracked>(5);
+        // MuyPoolManager.Instance.ResizePool<StrongPillEaten>(5);
+
         if (m_testMode)
             GenerateLevel();
         else

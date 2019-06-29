@@ -4,12 +4,28 @@ using UnityEngine;
 
 public class MacMan : BaseGridMovement
 {
-    private Material m_mat;
+    private Material m_mat = null;
     private Color m_ogColor;
     [SerializeField] private float m_originalSpeed = 3.0f;
 
+    #region effects
+    [SerializeField] private WalkDust m_walkDust = null;
+    [SerializeField] private StrongRing m_stringRing = null;
+    #endregion
     protected override void Awake()
     {
+        // get other component ref
+        if (m_walkDust)
+        {
+            m_walkDust = GetComponentInChildren<WalkDust>();
+            if (m_walkDust)
+                m_walkDust.PlayIt();
+        }
+        if (m_stringRing)
+        {
+            m_stringRing = GetComponentInChildren<StrongRing>();
+        }
+
         base.Awake();
         m_originalSpeed = m_movementSpeed;
         if (GetComponentInChildren<MeshRenderer>())
@@ -32,6 +48,13 @@ public class MacMan : BaseGridMovement
         else if (Input.GetKeyDown(KeyCode.RightArrow))
             m_inputDirection = IntVector2.RightVector2Int;
 
+        // Debug.Log(m_inputDirection);
+        // change 
+        if (null != m_walkDust)
+            m_walkDust.ChangDir(new Vector3(m_inputDirection.x, m_inputDirection.y, 0.0f));
+        // m_walkDust.ChangDir(new Vector3(m_inputDirection.x, m_inputDirection.y, 0.0f));
+
+        // move
         base.Update();
     }
 
@@ -76,6 +99,8 @@ public class MacMan : BaseGridMovement
     }
     protected IEnumerator BlinkingLast(float _duration)
     {
+        if (m_stringRing)
+            m_stringRing.PlayIt();
         float temp = 0.0f;
         //Color tmpColor = m_mat.color;
         while (temp < _duration)
@@ -88,6 +113,8 @@ public class MacMan : BaseGridMovement
             temp += 0.2f;
         }
         m_mat.SetColor("_Color", m_ogColor);
+        if (m_stringRing)
+            m_stringRing.StopIt();
     }
 
     protected Coroutine m_speedUpCoroutine;
@@ -114,6 +141,8 @@ public class MacMan : BaseGridMovement
         m_mat.SetColor("_Color", Color.white);
         m_movementSpeed = m_originalSpeed;
     }
+
+
 
     // class end
 }

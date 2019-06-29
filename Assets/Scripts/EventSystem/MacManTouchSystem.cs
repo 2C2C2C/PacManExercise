@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MacManTools;
+using HentaiTools.PoolWa;
 
 
 
 public class MacManTouchSystem : MonoBehaviour
 {
 
-    public MacMan m_macman;
+    public MacMan m_macman = null;
 
     [SerializeField]
     protected float m_strongDuration = 4.0f;
@@ -47,8 +49,14 @@ public class MacManTouchSystem : MonoBehaviour
                 if (m_isStrong)
                 {
                     // Debug.Log("mac man crush a ghost");
-                    if (HentaiTools.PoolWa.MuyPoolManager.Instance)
-                        HentaiTools.PoolWa.MuyPoolManager.Instance.TakeOneBack<Ghost>(evt.m_otherGo.GetComponent<Ghost>());
+                    if (MuyPoolManager.Instance)
+                    {
+
+                        EffectControllerBase fx = MuyPoolManager.Instance.GetOne<GhostCracked>(evt.m_otherGo.transform.position) as EffectControllerBase;
+                        Debug.Log($"effect pos {evt.m_otherGo.transform.position}");
+                        fx.PlayIt();
+                        MuyPoolManager.Instance.TakeOneBack<Ghost>(evt.m_otherGo.GetComponent<Ghost>());
+                    }
                     // Destroy(evt.m_otherGo);
                     GameManager.Instance.AddScore(20);
                 }

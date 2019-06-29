@@ -21,7 +21,7 @@ namespace HentaiTools.PoolWa
 
         private Dictionary<Type, MuyObjectPool> m_pools;
 
-        
+
         private static MuyPoolManager GetCreateSelf()
         {
             if (MuyPoolManager.instance == null)
@@ -215,6 +215,20 @@ namespace HentaiTools.PoolWa
             }
             return mono;
         }
+        public MonoBehaviour GetOne<T>(Vector3 _pos) where T : MonoBehaviour
+        {
+            MonoBehaviour mono = GetOne<T>();
+            mono.transform.position = _pos;
+            return mono;
+        }
+        public MonoBehaviour GetOne<T>(Vector3 _pos, Quaternion _rotation) where T : MonoBehaviour
+        {
+            MonoBehaviour mono = GetOne<T>();
+            mono.transform.position = _pos;
+            mono.transform.rotation = _rotation;
+            return mono;
+        }
+
 
         public void TakeOneBack<T>(MonoBehaviour _obj) where T : MonoBehaviour
         {

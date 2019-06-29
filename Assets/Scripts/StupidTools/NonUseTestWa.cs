@@ -29,6 +29,11 @@ public class NonUseTestWa : MonoBehaviour
             MuyPoolManager.Instance.ResizePool<Pill>(10);
         }
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            MuyPoolManager.Instance.InitSomePool<EffectControllerBase>(5);
+        }
+
         if (Input.GetKeyDown(KeyCode.H))
         {
             for (int i = 0; i < 6; i++)

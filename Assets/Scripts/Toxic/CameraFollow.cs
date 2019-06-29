@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// using DG.TE
 
 
 /// <summary>
-/// camera follow pacman on XOY plane
+/// camera follow pacman on XOY plane,for main camera?
 /// </summary>
 public class CameraFollow : MonoBehaviour
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using UnityEngine;
 
 [System.Serializable]
 public struct IntVector2
@@ -55,6 +56,11 @@ public struct IntVector2
         return (v1.x != v2.x || v1.y != v2.y);
     }
 
+    // public static implicit operator Vector3(Vector2Int _self)
+    // {
+    //     return new Vector3(_self.x, _self.y, 0.0f);
+    // }
+
     public override string ToString()
     {
         StringBuilder sb = new StringBuilder();
@@ -62,7 +68,7 @@ public struct IntVector2
         return sb.ToString();
     }
 
-    public override bool Equals(Object _other)
+    public override bool Equals(System.Object _other)
     {
         if (_other.GetType() != typeof(IntVector2))
             return false;
