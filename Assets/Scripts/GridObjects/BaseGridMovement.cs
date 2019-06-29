@@ -9,6 +9,8 @@ public class BaseGridMovement : BaseGridObject
     protected Vector3 m_position;
     protected Vector3 m_targetPosition;
 
+    protected IntVector2 m_acturallyMovingDir;
+
     public float m_movementLerpPercentage = 1.0f;
 
     protected virtual void Awake()
@@ -50,6 +52,7 @@ public class BaseGridMovement : BaseGridObject
         }
         else
         {
+            m_acturallyMovingDir = m_inputDirection;
             m_movementLerpPercentage += Time.deltaTime * m_movementSpeed;
             transform.position = Vector3.Lerp(m_position, m_targetPosition, m_movementLerpPercentage);
         }

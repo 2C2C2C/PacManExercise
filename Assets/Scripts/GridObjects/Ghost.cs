@@ -58,21 +58,20 @@ public class Ghost : BaseGridMovement
                 m_inputDirection *= -1;
                 MacManTools.Evently.Instance.Publish(new TuringAroundEvent(gameObject));
             }
-
         }
 
         //update anim
-        if (m_inputDirection.x != 0)
+        if (m_acturallyMovingDir.x != 0)
         {
             // look hori
-            if (m_inputDirection.x < 0)
+            if (m_acturallyMovingDir.x < 0)
                 m_faceAC.SetInteger("LookDir", 2);
             else
                 m_faceAC.SetInteger("LookDir", 3);
         }
         else
         {
-            if (m_inputDirection.y < 0)
+            if (m_acturallyMovingDir.y < 0)
                 m_faceAC.SetInteger("LookDir", 1);
             else
                 m_faceAC.SetInteger("LookDir", 0);

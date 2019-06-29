@@ -56,6 +56,11 @@ public struct IntVector2
         return (v1.x != v2.x || v1.y != v2.y);
     }
 
+    public Vector3 ToVector3()
+    {
+        return new Vector3(this.x, this.y, 0.0f);
+    }
+
     // public static implicit operator Vector3(Vector2Int _self)
     // {
     //     return new Vector3(_self.x, _self.y, 0.0f);

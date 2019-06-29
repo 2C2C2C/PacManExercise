@@ -5,8 +5,9 @@ using UnityEngine;
 public class MacMan : BaseGridMovement
 {
     private Material m_mat = null;
-    private Color m_ogColor;
+    private Color m_ogColor = Color.green;
     [SerializeField] private float m_originalSpeed = 3.0f;
+    [SerializeField] private Transform m_meshRoot = null;
 
     #region effects
     [SerializeField] private WalkDust m_walkDust = null;
@@ -52,6 +53,10 @@ public class MacMan : BaseGridMovement
         // change 
         if (null != m_walkDust)
             m_walkDust.ChangDir(new Vector3(m_inputDirection.x, m_inputDirection.y, 0.0f));
+        if (null != m_meshRoot)
+        {
+            m_meshRoot.right = m_acturallyMovingDir.ToVector3();
+        }
         // m_walkDust.ChangDir(new Vector3(m_inputDirection.x, m_inputDirection.y, 0.0f));
 
         // move
